@@ -64,13 +64,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: production-files
-          path: /home/runner/work/react-cicd-page/react-cicd-page/dist/
+          path: ./dist
+      
       - uses: actions/checkout@v3
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.2.1
         with:
           switches: -avzr --progress
-          path: ./dist
+          path: /home/runner/work/react-cicd-page/react-cicd-page/dist/
           remote_path: ${{ secrets.DEPLOY_PATH }}
           remote_host: ${{ secrets.SSH_HOST }}
           remote_port: ${{ secrets.SSH_PORT }}
