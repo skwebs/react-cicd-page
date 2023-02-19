@@ -49,8 +49,8 @@ jobs:
           github_token: ${{ secrets.GH_ACCESS_TOKEN }}
           publish_dir: ./dist
 
-   # Deploy to remote Job
-  deploy:
+  # Deploy to remote Job
+  deploy_remote:
     name: Deploy to Remote Server
     runs-on: ubuntu-latest
     needs: build
