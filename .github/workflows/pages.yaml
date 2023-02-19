@@ -69,7 +69,7 @@ jobs:
           path: dist/
       - name: file location 
         run: pwd
-        wworking-directory: dist/
+        working-directory: dist/
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.2.1
         with:
