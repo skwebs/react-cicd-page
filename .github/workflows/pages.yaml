@@ -48,3 +48,5 @@ jobs:
         with:
           github_token: ${{ secrets.GH_ACCESS_TOKEN }}
           publish_dir: ./dist
+      - name: Deploy with rsync
+        run: rsync -avz ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u170082150/public_html/rcp/
