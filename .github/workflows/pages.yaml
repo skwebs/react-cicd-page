@@ -48,5 +48,19 @@ jobs:
         with:
           github_token: ${{ secrets.GH_ACCESS_TOKEN }}
           publish_dir: ./dist
-      - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --progress ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u170082150/public_html/rcp/
+          #
+    steps:
+      - uses: actions/checkout@v2
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.2.1
+        with:
+          switches: -avzr --delete --progress
+          path: src/
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_port: ${{ secrets.SSH_PORT }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_KEY }}
+
+      # - name: Deploy with rsync
+      #   run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" --progress ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u170082150/public_html/rcp/
