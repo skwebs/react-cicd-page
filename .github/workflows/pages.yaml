@@ -16,17 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     # Steps
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Install node 16
+        uses: actions/setup-node@v3
         with:
           node-version: 16
-    # steps:
-    #   - name: Checkout Code
-    #     uses: actions/checkout@v3
-    #   - name: Install node 16
-    #     uses: actions/setup-node@v1
-    #     with:
-    #       node-version: 16.x
       - name: Install NPM Dependencies
         run: npm i
       - name: Build Project
@@ -35,28 +30,26 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: production-files
-          path: dist
+          path: ./dist/
   # Deploy Job
-  deploy:
-    name: Deploy
+  deploy_to_ghp:
+    name: Deploy Github Page
     runs-on: ubuntu-latest
     needs: build
-
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: production-files
-          path: ./dist
+          path: ./dist/
       - name: Deploy to gh pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GH_ACCESS_TOKEN }}
-          publish_dir: ./dist
-
+          publish_dir: ./dist/
   # Deploy to remote Job
-  deploy_remote:
-    name: Deploy to Remote Server
+  deploy_to_website:
+    name: Deploy to Website
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -66,15 +59,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: production-files
-          path: dist/
+          path: ./dist/
       - name: file location 
         run: pwd
-        working-directory: dist/
+        working-directory: ./dist/
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.2.1
         with:
           switches: -avzr --progress
-          path: dist/
+          path: ./dist/
           remote_path: ${{ secrets.DEPLOY_PATH }}
           remote_host: ${{ secrets.SSH_HOST }}
           remote_port: ${{ secrets.SSH_PORT }}

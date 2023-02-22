@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "start": "vite --host",
-    "buildbase": "vite build --base=/vitereact/",
+    "buildbase": "vite build --base=/react-cicd-page/",
     "build": "vite build",
     "preview": "vite preview --host"
   },
