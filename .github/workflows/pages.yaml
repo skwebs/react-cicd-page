@@ -26,6 +26,8 @@ jobs:
         run: npm i
       - name: Build Project
         run: npm run build
+        env:
+          VITE_LARAVEL_GRAPHQL_URL: ${{secrets.VITE_LARAVEL_GRAPHQL_URL}}
       - name: Upload artifact in order to deploy
         uses: actions/upload-artifact@v3
         with:
@@ -60,7 +62,7 @@ jobs:
         with:
           name: production-files
           path: ./dist/
-      - name: file location 
+      - name: file location
         run: pwd
         working-directory: ./dist/
       - name: rsync deployments
